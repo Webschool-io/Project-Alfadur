@@ -21,9 +21,17 @@ const Atom = {
   name: "atom-cpf",
   type: "input/text",
   events: [
-    {blur: isCPF}, // VALIDATE
-    {sucess: isCPFSuccess},
-    {error: isCPFError}
+    {
+      name: "blur",
+      callback: isCPF
+    },
+    {
+      name: "success",
+      callback: isCPFSuccess}
+    {
+      name: "error" ,
+      callback: isCPFError
+    }
   ]
 }
 ```
@@ -33,7 +41,7 @@ Então perceba que não precisamos adicionar a chamada das funções nos eventos
 ```js
 const atom = Atom.name
 const atoms = document.querySelectorAll(atom)
-atoms.forEach((el) => Atom.events.forEach((evt) => el.addEventListener(evt, modifyText, false)))
+atoms.forEach((el) => Atom.events.forEach((evt) => { console.log(evt) }))
 ```
 
 
