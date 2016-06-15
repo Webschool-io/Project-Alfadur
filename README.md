@@ -41,7 +41,7 @@ Então perceba que não precisamos adicionar a chamada das funções nos eventos
 ```js
 const atom = Atom.name
 const atoms = document.querySelectorAll(atom)
-atoms.forEach((el) => Atom.events.forEach((evt) => { console.log(evt) }))
+atoms.forEach((el) => Atom.events.forEach((evt) => el.addEventListener(evt.name, evtcallback, false); ))
 ```
 
 
