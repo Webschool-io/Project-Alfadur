@@ -27,7 +27,8 @@ const Atom = {
     },
     {
       name: "success",
-      callback: isCPFSuccess}
+      callback: isCPFSuccess
+    },
     {
       name: "error" ,
       callback: isCPFError
@@ -43,6 +44,121 @@ const atom = Atom.name
 const atoms = document.querySelectorAll(atom)
 atoms.forEach((el) => Atom.events.forEach((evt) => el.addEventListener(evt.name, evtcallback, false); ))
 ```
+
+E todas as funções utilizadas pelos átomos são módulos atômicos já existentes que serão apenas importadas, por exemplo:
+
+
+```js
+// isName
+'use strict';
+
+module.exports = (value) => {
+  const isEmpty = require('./isEmpty')(value);
+  const isString = require('./isString')(value);
+
+  if(isEmpty) return false;
+  if(!isString) return false;
+
+  return (value.length > 3 && value.length < 80);
+}
+```
+
+Que irá usar dois outros Quarks:
+
+- isEmpty
+- isString
+
+```js
+// isString
+'use strict';
+
+module.exports = (value) => {
+  if (typeof value === 'string' || value instanceof String) return true;
+  return false;
+}
+```
+
+```js
+// isEmpty
+'use strict';
+
+module.exports = (value) => {
+  const isNull = (value === null);
+  const isUndefined = (value === undefined);
+  const isEmpty = (value === '');
+  if (isNull || isUndefined || isEmpty) return true;
+  return false;
+}
+```
+
+
+```js
+// isCPF
+'use strict';
+
+module.exports = (value) => {
+
+  const isEmpty = require('../isEmpty/isEmpty')(value);
+  if(isEmpty) return false;
+
+  const isString = require('../isString/isString')(value);
+  if(!isString) return false;
+
+
+  let campos = value.split('');
+  let colunas = [];
+  
+  const arrayPrimeiroDig = ['10','9','8','7','6','5','4','3','2'];
+  const primeiroDig = 2;
+
+  const arraySegundoDig = ['11','10','9','8','7','6','5','4','3','2'];
+  const segundoDig = 1;
+
+  if(value.length != 11) return false;
+  if(value == '00000000000') return false;
+
+
+  const verificaDigito = (campos , colunas , arrayVerificador,numDigito) => {   
+    
+    for(let i = 0; i < arrayVerificador.length; i++) {
+      colunas[i] = campos[i] * arrayVerificador[i];
+    }
+
+    let soma = 0;
+
+    colunas.forEach((valor) => {
+      soma = valor + soma;
+    });
+
+    let resto = soma % 11;
+    let digitoVerificador = null;
+
+    if(resto < 2) {
+      digitoVerificador = 0;
+    } else {
+      digitoVerificador = 11 - resto;
+    }
+
+    let digito = campos.length - numDigito;
+
+    if(digitoVerificador == campos[digito])
+      return true;
+    return false;
+  }
+
+  let valorPrimeiro = verificaDigito(campos,colunas,arrayPrimeiroDig,primeiroDig);
+  let valorSegundo = verificaDigito(campos,colunas,arraySegundoDig,segundoDig);
+
+  if(valorPrimeiro && valorSegundo) 
+    return true;
+  return false;
+
+}
+```
+
+[Quark - isCpf](https://github.com/Webschool-io/Node-Atomic-Design_QUARKS/blob/master/isCpf/isCpf.js)
+
+
 
 
 
