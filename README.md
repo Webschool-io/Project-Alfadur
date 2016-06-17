@@ -158,7 +158,96 @@ module.exports = (value) => {
 
 [Quark - isCpf](https://github.com/Webschool-io/Node-Atomic-Design_QUARKS/blob/master/isCpf/isCpf.js)
 
+Agora imagine que cada função irá emitir um evento dependendo do retorno de cada função.
+
+> - Por quê?
+
+Para que nosso formulário possa ser uma Molécula que não precise conhecer seus filhos, pois os mesmos se auto-validarão emitindo eventos de erro da validação com sua mensagem de erro para que o formulário só libere o evento de `submit` quando não tiver recebido **nenhum** evento de erro.
+
+O próprio botão de `submit` só será habilitado após o formulário emitir o evento de sucesso.
+
+Vamos ver como seria o caminho dos dados nessa arquitetura, lembrando que todas funções assíncronas utilizarão Promises.
+
+**IDA no frontend:**
+
+```
+atom-input -> valida -> emite evento -> molecule-form escuta eventos -> emite evento caso não tenha recebido nenhum evento de erro -> habilita atom-submit -> emite evento que envia o objeto do form para um service -> que envia requisição HTTP para API
+```
+
+**IDA no backend:**
+
+```
+rota recebe requisição -> emite evento para o Organismo/Controller -> emite evento para Organela -> emite evento para o DAL (Data Access Layer)
+``` 
+
+**VOLTA no backend:**
+
+```
+DAL emite evento para serviço de resposta -> Serviço emite resposta HTTP com o status code correto
+```
+
+**VOLTA no frontend:**
+
+```
+Promise do Serviço recebe resposta, executa o callback correto que irá emitir 1 evento com a resposta para o Model -> Model escuta o evento e se atualiza se necessário
+```
+
+## Eventos
+
+Pessoalmente acho interessante que cada módulo que utilize de eventos possua um cache interno com pelo menos os 5 últimos eventos emitidos com um contador, onde o mesmo seja incrementado a cada vez que ele seja escutado e esse contador seja repassado para o próximo evento a ser chamado, qm sabe com algum identificador de qual módulo o escutou, para emularmos "transações" com eventos.
+
+Podemos nos basear no oplog do MongoDb, o qual é utilizado para sincronizar seus servidores.
 
 
 
+Vamos utilizar [um exemplo que criei para o Offline-first](http://nomadev.com.br/fullstack-offline-api-first/):
+
+```js
+{
+  "token": "nomeDoModuloQueEscutouOEvento:TOKEN",
+  "timestamp" : Date.now(),
+  "ns" : "MeuSistema.nomeDoModulo",
+  "event": "",
+  "contador": 0,
+  "from": "nomeDoModuloQueEmitiuOEvento"
+  "data": {}
+}
+```
+
+Agora vamos imaginar com nosso exemplo do formulário onde o campo de CPF irá emitir um evento para o `form`, onde o mesmo deverá logar o seguinte objeto no seu cache:
+
+```js
+{
+  "token": "molecule-form:T0k3nD01d3r4",
+  "timestamp" : Date.now(),
+  "ns" : "Webschool.User",
+  "event": "validate",
+  "contador": 1,
+  "from": "atom-cpf"
+  "data": {
+    validate: true, 
+    obj: {
+      name: "cpf", 
+      value: "123456789-01"
+    }
+  }
+}
+```
+
+Como ele recebeu `{validate: true}` ele irá emitir 1 evento para o botão de submit, gerando esse *oplog* no módulo do botão de submit:
+
+```js
+{
+  "token": "atom-submit:T0k3nD4z1k444",
+  "timestamp" : Date.now(),
+  "ns" : "Webschool.User",
+  "event": "validate",
+  "contador": 2,
+  "from": "molecule-form"
+  "data": {validate: true}
+}
+```
+
+
+Lembrando que esse *oplog* pode ser persistido localmente via Session/LocalStorage
 
