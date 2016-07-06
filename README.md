@@ -1,6 +1,6 @@
 # Project-Alfadurff
 
-![](alfadurff.jpg)
+![](https://github.com/Webschool-io/Project-Alfadurff/blob/master/alfadur.jpg)
 
 
 Um padrão/framework/motherfucker de Styleguide/Frontend Driven Development com Atomic Design Behavior
