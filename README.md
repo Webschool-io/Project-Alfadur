@@ -10,6 +10,10 @@ Um padrão/framework/motherfucker de Styleguide/Frontend Driven Development com 
 
 Onde teremos um padrão de nomenclatura para que os átomos, moléculas e organismos possam ser reaproveitados em qualquer outro sistema, esses contendo seus comportamentos e o seu visual sendo gerao a partir das definições no styleguide.
 
+## Designer
+
+Responsável por criar identidade visual do projeto, não se preocupando em como os elementos serão gerados, logo após para montar os(as) wireframes/página do sistema o UXer deverá arquiteturar as *views* definindo no seu grid onde cada elemento irá, sem se preocupar com o visual para isso utilizando componentes padronizados criados pelos desenvolvedores usando html/css/js e seus pré-processadores, dessa forma separamos de forma clara a responsabilidade de cada um e deixamos que o trabalhd e cada um possar ser reutilizado em qualquer ouro sistema, se assim o responsável desejar.
+
 ## Prova de Conceito
 
 ### View
