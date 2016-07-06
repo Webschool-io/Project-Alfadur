@@ -6,7 +6,9 @@ De acordo com a lenda, após o Ragnarok, Alfadur seria responsável por recriar 
 ![](https://github.com/Webschool-io/Project-Alfadurff/blob/master/alfadur.jpg)
 
 
-Um padrão/framework/motherfucker de Styleguide/Frontend Driven Development com Atomic Design Behavior
+Um padrão/framework/motherfucker de Styleguide/Frontend Driven Development com Atomic Design Behavior para a criação de componentes isomórficos que isolem as responsabilidades do designer, desenvolvedor, UXer.
+
+
 
 ## Prova de Conceito
 
