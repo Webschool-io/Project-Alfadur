@@ -8,7 +8,7 @@ De acordo com a lenda, após o Ragnarok, Alfadur seria responsável por recriar 
 
 Um padrão/framework/motherfucker de Styleguide/Frontend Driven Development com Atomic Design Behavior para a criação de componentes isomórficos que isolem as responsabilidades do designer, desenvolvedor, UXer.
 
-
+Onde teremos um padrão de nomenclatura para que os átomos, moléculas e organismos possam ser reaproveitados em qualquer outro sistema, esses contendo seus comportamentos e o seu visual sendo gerao a partir das definições no styleguide.
 
 ## Prova de Conceito
 
