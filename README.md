@@ -1,5 +1,8 @@
 # Project-Alfadur
 
+Alfadur é o Deus supremo na mitologia nórdica. Embora muitas vezes chamado de Odin, Alfadur (que significa todo-pai) é representado pelo Deus incriado e infinito.
+De acordo com a lenda, após o Ragnarok, Alfadur seria responsável por recriar o mundo.
+
 ![](https://github.com/Webschool-io/Project-Alfadurff/blob/master/alfadur.jpg)
 
 
