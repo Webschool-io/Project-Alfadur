@@ -1,6 +1,6 @@
 # Project-Alfadurff
 
-![](./alfadurff.jpg)
+![](alfadurff.jpg)
 
 
 Um padrão/framework/motherfucker de Styleguide/Frontend Driven Development com Atomic Design Behavior
